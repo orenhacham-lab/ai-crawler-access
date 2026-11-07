@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI crawler directory",
+  "type": "object",
+  "required": ["version", "updated", "crawlers"],
+  "properties": {
+    "version": { "type": "string" },
+    "updated": { "type": "string", "format": "date" },
+    "data_license": { "type": "string" },
+    "maintainer": { "type": "string" },
+    "source_page": { "type": "string", "format": "uri" },
+    "notes": { "type": "array", "items": { "type": "string" } },
+    "crawlers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["token", "operator", "purpose", "crawls", "respects_robots", "docs", "verified"],
+        "properties": {
+          "token": { "type": "string", "description": "The product token exactly as the operator publishes it." },
+          "operator": { "type": "string" },
+          "purpose": { "enum": ["train", "answer", "search", "ads", "preview"] },
+          "crawls": { "type": "boolean", "description": "False for a control-only robots.txt token that fetches nothing." },
+          "respects_robots": { "type": "boolean", "description": "False where the operator documents that robots.txt may be ignored." },
+          "classic_search": { "type": "boolean" },
+          "docs": { "type": "string", "format": "uri" },
+          "verified": { "type": "string", "format": "date" },
+          "note": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "candidates_awaiting_a_reference": { "type": "array", "items": { "type": "object" } }
+  }
+}

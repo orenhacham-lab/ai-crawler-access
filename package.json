@@ -1,6 +1,6 @@
 {
   "name": "ai-crawler-access",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Check which AI crawlers a site's robots.txt allows or blocks, and which line decided it. RFC 9309 matcher, zero dependencies.",
   "type": "module",
   "license": "MIT",
@@ -9,9 +9,9 @@
   "repository": { "type": "git", "url": "git+https://github.com/orenhacham-lab/ai-crawler-access.git" },
   "bugs": { "url": "https://github.com/orenhacham-lab/ai-crawler-access/issues" },
   "keywords": ["robots.txt", "ai-crawlers", "gptbot", "seo", "rfc9309", "llm", "crawler", "oai-searchbot"],
-  "exports": { ".": "./src/index.ts" },
-  "bin": { "ai-crawler-access": "./bin/ai-crawler-access.ts" },
-  "engines": { "node": ">=22.18" },
-  "files": ["src", "bin", "README.md", "LICENSE"],
-  "scripts": { "test": "node --test test/*.test.ts" }
+  "exports": { ".": "./src/index.js", "./data": "./data/ai-crawlers.json" },
+  "bin": { "ai-crawler-access": "./bin/ai-crawler-access.js" },
+  "engines": { "node": ">=18.17" },
+  "files": ["src", "bin", "data", "README.md", "LICENSE", "LICENSE-DATA"],
+  "scripts": { "test": "node --test test/*.test.js" }
 }

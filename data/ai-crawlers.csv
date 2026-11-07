@@ -1,0 +1,25 @@
+token,operator,purpose,crawls,respects_robots,classic_search,docs,verified
+GPTBot,OpenAI,train,true,true,,https://developers.openai.com/api/docs/bots,2026-11-01
+OAI-SearchBot,OpenAI,search,true,true,,https://developers.openai.com/api/docs/bots,2026-11-01
+ChatGPT-User,OpenAI,answer,true,true,,https://developers.openai.com/api/docs/bots,2026-11-01
+OAI-AdsBot,OpenAI,ads,true,true,,https://developers.openai.com/api/docs/bots,2026-11-01
+ClaudeBot,Anthropic,train,true,true,,https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler,2026-11-01
+Claude-SearchBot,Anthropic,search,true,true,,https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler,2026-11-01
+Claude-User,Anthropic,answer,true,true,,https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler,2026-11-01
+Google-Extended,Google,train,false,true,,https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers,2026-11-01
+GoogleOther,Google,train,true,true,,https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers,2026-11-01
+Googlebot,Google,search,true,true,true,https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers,2026-11-01
+PerplexityBot,Perplexity,search,true,true,,https://docs.perplexity.ai/guides/bots,2026-11-01
+Perplexity-User,Perplexity,answer,true,false,,https://docs.perplexity.ai/guides/bots,2026-11-01
+Applebot,Apple,search,true,true,true,https://support.apple.com/en-us/119829,2026-11-01
+Applebot-Extended,Apple,train,false,true,,https://support.apple.com/en-us/119829,2026-11-01
+Meta-ExternalAgent,Meta,train,true,true,,https://developers.facebook.com/docs/sharing/webmasters/web-crawlers/,2026-11-01
+Meta-WebIndexer,Meta,search,true,true,,https://developers.facebook.com/docs/sharing/webmasters/web-crawlers/,2026-11-01
+Meta-ExternalFetcher,Meta,answer,true,false,,https://developers.facebook.com/docs/sharing/webmasters/web-crawlers/,2026-11-01
+Meta-ExternalAds,Meta,ads,true,true,,https://developers.facebook.com/docs/sharing/webmasters/web-crawlers/,2026-11-01
+FacebookExternalHit,Meta,preview,true,false,,https://developers.facebook.com/docs/sharing/webmasters/web-crawlers/,2026-11-01
+Amazonbot,Amazon,answer,true,true,,https://developer.amazon.com/amazonbot,2026-11-01
+Bingbot,Microsoft,search,true,true,true,https://www.bing.com/webmasters/help/which-crawlers-does-bing-use-8c184ec0,2026-11-01
+CCBot,Common Crawl,train,true,true,,https://commoncrawl.org/ccbot,2026-11-01
+AI2Bot,Allen Institute for AI,train,true,true,,https://allenai.org/crawler,2026-11-01
+Diffbot,Diffbot,train,true,true,,https://www.diffbot.com/support/diffbot-crawler/,2026-11-01

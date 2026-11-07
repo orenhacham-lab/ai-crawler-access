@@ -5,8 +5,10 @@ Check which AI crawlers a site's `robots.txt` allows or blocks — **and which l
 Zero dependencies. No build step. No network except the one request that fetches `robots.txt`.
 
 ```bash
-npx ai-crawler-access nytimes.com
+npx github:orenhacham-lab/ai-crawler-access nytimes.com
 ```
+
+(Not on npm yet, so the GitHub form is the one that works today.)
 
 ```
 nytimes.com/  —  8547 bytes
@@ -39,7 +41,7 @@ Blocking `GPTBot` is a decision about training. Blocking `OAI-SearchBot` is a de
 
 `summarize()` exposes exactly this:
 
-```ts
+```js
 import { checkRobots, summarize } from 'ai-crawler-access'
 
 const verdicts = checkRobots(robotsText, '/')
@@ -76,42 +78,66 @@ The matcher is written to [RFC 9309](https://www.rfc-editor.org/rfc/rfc9309.html
 
 ## API
 
-```ts
+```bash
+npm install github:orenhacham-lab/ai-crawler-access
+```
+
+```js
 import { checkRobots, summarize, parseRobots, isAllowed, AI_CRAWLERS } from 'ai-crawler-access'
 
 checkRobots(robotsText, path?)   // CrawlerVerdict[] — every known AI crawler
 summarize(verdicts)              // counts + which blocked crawlers cost traffic
 parseRobots(text)                // groups and rules, with line numbers
 isAllowed(parsed, token, path)   // { allowed, source, decidedBy }
-AI_CRAWLERS                      // the reference list: token, operator, purpose
+AI_CRAWLERS                      // the reference list, read from data/ai-crawlers.json
 ```
 
 Everything except `fetchRobots` is a pure function of the text: no network, no clock, no environment.
 
 ```bash
-npx ai-crawler-access example.com --path /blog/ --json
+npx github:orenhacham-lab/ai-crawler-access example.com --path /blog/ --json
 ```
 
 ## Requirements
 
-Node 22.18+ (TypeScript runs natively; there is nothing to build).
+Node 18.17+. Plain JavaScript, no dependencies, no build step.
 
 ```bash
 npm test
 ```
 
-## The crawler list
+## The dataset
 
-`AI_CRAWLERS` carries each token in its published spelling, its operator, its purpose, and whether the operator has committed to honouring `robots.txt` at all — because for the ones that have not, a verdict describes your request rather than their behaviour.
+The crawler list is not written in the code. It is read from **[`data/ai-crawlers.json`](data/ai-crawlers.json)**, which is also what the hosted version renders — one source of truth, so the repo and the site cannot drift apart. A test pins them together.
 
-A fuller dataset, with documentation links and the date each entry was verified, is published under CC BY 4.0 at `https://www.gotopseo.com/api/public/ai-crawlers`.
+| file | what it is |
+|---|---|
+| [`data/ai-crawlers.json`](data/ai-crawlers.json) | the table: token, operator, purpose, whether it crawls at all, whether it honours `robots.txt`, the operator page it rests on, and the date that page was read |
+| [`data/ai-crawlers.csv`](data/ai-crawlers.csv) | the same rows, flat |
+| [`data/ai-crawlers.schema.json`](data/ai-crawlers.schema.json) | JSON Schema for the above |
 
-Corrections are the contribution this repo most wants: if an operator documents a token we have wrong, or ships a new one, please open an issue or a PR with the link to their page.
+Use it without cloning anything:
+
+```bash
+curl -s https://cdn.jsdelivr.net/gh/orenhacham-lab/ai-crawler-access/data/ai-crawlers.json
+```
+
+The same table is served as an API, no key and no sign-up: `https://www.gotopseo.com/api/public/ai-crawlers` (add `?format=csv` for CSV).
+
+**The bar for a row is a page published by the crawler's own operator that names the token.** Tokens that people really do find in their logs but that no operator documents — `Bytespider`, `cohere-ai`, `MistralAI-User`, `Timpibot`, `omgili` — are kept in a separate `candidates_awaiting_a_reference` list and marked `documented: false`, with `respectsRobots: null`. The checker still reports them, and says so beside the verdict. Nobody has committed to anything there that we could cite, so the library claims nothing.
+
+**Licence:** the data is CC BY 4.0 ([LICENSE-DATA](LICENSE-DATA)); the code is MIT.
+
+Corrections are the contribution this repo most wants — above all a link that moves a candidate into the dataset. See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## robots.txt recipes
+
+[`examples/robots-recipes.md`](examples/robots-recipes.md) has copy-paste blocks for the three positions site owners actually take, each with what it does *not* achieve.
 
 ## Hosted version
 
 The same check with a UI, no signup: **https://www.gotopseo.com/en/ai-crawlers**
 
-## License
+## Licence
 
-MIT — see [LICENSE](LICENSE).
+Code: MIT — see [LICENSE](LICENSE). Data in `data/`: CC BY 4.0 — see [LICENSE-DATA](LICENSE-DATA).

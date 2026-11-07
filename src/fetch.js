@@ -2,14 +2,20 @@
  * Fetching a site's robots.txt. Kept apart from the matcher on purpose: the
  * matcher is pure and testable, this is the part that can fail.
  */
-export type RobotsFetch =
-  | { ok: true; url: string; text: string; bytes: number; state: 'found' | 'absent' }
-  | { ok: false; error: 'unreachable' | 'not_robots' }
+/**
+ * @typedef {{ ok: true, url: string, text: string, bytes: number, state: 'found'|'absent' }
+ *          | { ok: false, error: 'unreachable'|'not_robots' }} RobotsFetch
+ */
 
 const UA = 'ai-crawler-access (+https://github.com/orenhacham-lab/ai-crawler-access)'
 
 /** Try https://www.<domain>/robots.txt, then https://<domain>/robots.txt. */
-export async function fetchRobots(domain: string, timeoutMs = 12_000): Promise<RobotsFetch> {
+/**
+ * @param {string} domain
+ * @param {number} [timeoutMs]
+ * @returns {Promise<RobotsFetch>}
+ */
+export async function fetchRobots(domain, timeoutMs = 12_000) {
   const host = domain.replace(/^https?:\/\//, '').replace(/\/.*$/, '')
   for (const base of [`https://www.${host}`, `https://${host}`]) {
     try {

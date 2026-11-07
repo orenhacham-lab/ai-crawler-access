@@ -1,0 +1,9 @@
+The contents of `data/` — the crawler dataset in JSON and CSV — are licensed under the
+Creative Commons Attribution 4.0 International licence (CC BY 4.0).
+
+    https://creativecommons.org/licenses/by/4.0/
+
+You may copy, redistribute, adapt and build on the data, for any purpose including commercially,
+provided you give credit. Credit this repository, or "Go Top SEO — ai-crawler-access".
+
+The code in `src/`, `bin/` and `test/` is MIT licensed; see LICENSE.

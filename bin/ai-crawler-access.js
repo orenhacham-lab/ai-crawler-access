@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /** `npx ai-crawler-access example.com [--path /blog/] [--json]` */
-import { checkRobots, summarize } from '../src/index.ts'
-import { fetchRobots } from '../src/fetch.ts'
+import { checkRobots, summarize } from '../src/index.js'
+import { fetchRobots } from '../src/fetch.js'
 
 const args = process.argv.slice(2)
 const json = args.includes('--json')
@@ -31,7 +31,11 @@ if (json) {
   for (const v of verdicts) {
     const mark = v.allowed ? 'allowed' : 'BLOCKED'
     const why = v.rule ? `  ← ${v.rule.kind}: ${v.rule.pattern} (line ${v.rule.line}, ${v.source} group)` : ''
-    console.log(`  ${mark.padEnd(8)} ${v.token.padEnd(22)} ${v.operator} · ${v.purpose}${why}`)
+    // A token no operator documents, and one whose operator says it may ignore
+    // robots.txt, both make the verdict a statement about the request rather
+    // than about what the crawler will do. The line says so.
+    const caveat = !v.documented ? '  (undocumented token)' : v.respectsRobots === false ? '  (may ignore robots.txt)' : ''
+    console.log(`  ${mark.padEnd(8)} ${v.token.padEnd(22)} ${v.operator} · ${v.purpose}${why}${caveat}`)
   }
   console.log(`\n  ${sum.allowed} allowed, ${sum.blocked} blocked`)
   if (sum.trafficBlocked.length) {

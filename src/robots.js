@@ -30,27 +30,26 @@
  *     path matches — inverts the file's meaning completely.
  */
 
-export type RobotsRule = {
-  kind: 'allow' | 'disallow'
-  /** The path pattern exactly as written in the file. */
-  pattern: string
-  /** 1-based line number in the file, so the UI can quote it. */
-  line: number
-}
-
-export type RobotsGroup = {
-  /** The user-agent tokens this group is for, as written. */
-  agents: string[]
-  rules: RobotsRule[]
-}
-
-export type ParsedRobots = {
-  groups: RobotsGroup[]
-  /** `Sitemap:` lines, which are global and belong to no group. */
-  sitemaps: string[]
-  /** True when the file had no `User-agent:` line at all. */
-  empty: boolean
-}
+/**
+ * @typedef {object} RobotsRule
+ * @property {'allow'|'disallow'} kind
+ * @property {string} pattern  The path pattern exactly as written in the file.
+ * @property {number} line     1-based line number in the file, so a caller can quote it.
+ *
+ * @typedef {object} RobotsGroup
+ * @property {string[]} agents     The user-agent tokens this group is for, as written.
+ * @property {RobotsRule[]} rules
+ *
+ * @typedef {object} ParsedRobots
+ * @property {RobotsGroup[]} groups
+ * @property {string[]} sitemaps  `Sitemap:` lines, which are global and belong to no group.
+ * @property {boolean} empty      True when the file had no `User-agent:` line at all.
+ *
+ * @typedef {object} Verdict
+ * @property {boolean} allowed
+ * @property {'agent'|'wildcard'|'none'} source  Which group decided: the crawler's own, `*`, or neither.
+ * @property {RobotsRule|null} decidedBy         The rule that decided, when one did.
+ */
 
 /**
  * Split a robots.txt into groups.
@@ -61,10 +60,11 @@ export type ParsedRobots = {
  * `rulesFor` merges them, which keeps this function a faithful reading of the
  * file and puts the RFC's merging rule in one place.
  */
-export function parseRobots(text: string): ParsedRobots {
-  const groups: RobotsGroup[] = []
-  const sitemaps: string[] = []
-  let current: RobotsGroup | null = null
+/** @param {string} text @returns {ParsedRobots} */
+export function parseRobots(text) {
+  /** @type {RobotsGroup[]} */ const groups = []
+  /** @type {string[]} */ const sitemaps = []
+  /** @type {RobotsGroup|null} */ let current = null
   // True while we are still inside the run of User-agent lines that opens a
   // group, i.e. before that group's first rule.
   let collectingAgents = false
@@ -121,7 +121,12 @@ export function parseRobots(text: string): ParsedRobots {
  * list `User-agent: GPTBot` twice with different rules — but the `*` group is
  * consulted ONLY when no group names the token at all.
  */
-export function rulesFor(parsed: ParsedRobots, token: string): { rules: RobotsRule[]; source: 'agent' | 'wildcard' | 'none' } {
+/**
+ * @param {ParsedRobots} parsed
+ * @param {string} token
+ * @returns {{ rules: RobotsRule[], source: 'agent'|'wildcard'|'none' }}
+ */
+export function rulesFor(parsed, token) {
   const wanted = token.toLowerCase()
   const named = parsed.groups.filter((g) => g.agents.some((a) => a.toLowerCase() === wanted))
   if (named.length) return { rules: named.flatMap((g) => g.rules), source: 'agent' }
@@ -143,7 +148,8 @@ export function rulesFor(parsed: ParsedRobots, token: string): { rules: RobotsRu
  * Returns the number of characters of the pattern that were used to decide, or
  * null for no match. That length IS the specificity RFC 9309 ranks rules by.
  */
-export function matchLength(pattern: string, path: string): number | null {
+/** @param {string} pattern @param {string} path @returns {number|null} */
+export function matchLength(pattern, path) {
   // An empty Disallow is "no restriction"; the caller drops it before getting
   // here, and an empty Allow is meaningless in the same way.
   if (pattern === '') return null
@@ -166,24 +172,22 @@ export function matchLength(pattern: string, path: string): number | null {
   return re.test(path) ? pattern.length : null
 }
 
-export type Verdict = {
-  allowed: boolean
-  /** Which group decided: the crawler's own, the `*` fallback, or neither. */
-  source: 'agent' | 'wildcard' | 'none'
-  /** The rule that decided, when one did. Null means "nothing matched". */
-  decidedBy: RobotsRule | null
-}
-
 /**
  * Is `path` allowed for `token` by this robots.txt?
  *
  * Default is ALLOW: robots.txt is an opt-out list, so a path no rule matches is
  * open, and so is a crawler no group names.
  */
-export function isAllowed(parsed: ParsedRobots, token: string, path: string): Verdict {
+/**
+ * @param {ParsedRobots} parsed
+ * @param {string} token
+ * @param {string} path
+ * @returns {Verdict}
+ */
+export function isAllowed(parsed, token, path) {
   const { rules, source } = rulesFor(parsed, token)
 
-  let best: { rule: RobotsRule; length: number } | null = null
+  /** @type {{ rule: RobotsRule, length: number }|null} */ let best = null
   for (const rule of rules) {
     // RULE 4: an empty `Disallow:` is the documented "allow everything", not a
     // zero-length prefix that matches every path.
@@ -209,7 +213,8 @@ export function isAllowed(parsed: ParsedRobots, token: string, path: string): Ve
  * would test. Everything that is not a path is dropped, and a bare `blog`
  * becomes `/blog`, because that is plainly what was meant.
  */
-export function normalizeCheckPath(raw: string | undefined): string {
+/** @param {string|undefined} raw @returns {string} */
+export function normalizeCheckPath(raw) {
   const trimmed = (raw ?? '').trim()
   if (!trimmed) return '/'
   // A whole URL pasted into the path field: keep only its path.

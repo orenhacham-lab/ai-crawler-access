@@ -5,34 +5,39 @@
  * file touches the network, the clock or the environment, which is what makes
  * the verdicts testable against a string instead of a live site.
  */
-import { AI_CRAWLERS, type AiCrawler, type CrawlerPurpose } from './crawlers.ts'
-import { isAllowed, normalizeCheckPath, parseRobots, type ParsedRobots, type RobotsRule } from './robots.ts'
+import { AI_CRAWLERS } from './crawlers.js'
+import { isAllowed, normalizeCheckPath, parseRobots } from './robots.js'
 
-export { AI_CRAWLERS, AI_CRAWLER_TOKENS } from './crawlers.ts'
-export type { AiCrawler, CrawlerPurpose } from './crawlers.ts'
-export { parseRobots, isAllowed, rulesFor, matchLength, normalizeCheckPath } from './robots.ts'
-export type { ParsedRobots, RobotsGroup, RobotsRule, Verdict } from './robots.ts'
+export { AI_CRAWLERS, AI_CRAWLER_TOKENS, DATASET_VERSION } from './crawlers.js'
+export { parseRobots, isAllowed, rulesFor, matchLength, normalizeCheckPath } from './robots.js'
 
-export type CrawlerVerdict = {
-  token: string
-  operator: string
-  purpose: CrawlerPurpose
-  /** True for the classic search crawlers people check in the same breath. */
-  classicSearch: boolean
-  /** False when the operator has not committed to honouring robots.txt. */
-  respectsRobots: boolean
-  allowed: boolean
-  /** Which group decided: the crawler's own, the `*` fallback, or neither. */
-  source: 'agent' | 'wildcard' | 'none'
-  /** The deciding line, verbatim, so a reader can find it in their own file. */
-  rule: RobotsRule | null
-}
+/**
+ * @typedef {import('./crawlers.js').CrawlerPurpose} CrawlerPurpose
+ * @typedef {import('./robots.js').RobotsRule} RobotsRule
+ *
+ * @typedef {object} CrawlerVerdict
+ * @property {string} token
+ * @property {string} operator
+ * @property {CrawlerPurpose} purpose
+ * @property {boolean} classicSearch   True for the classic search crawlers people check alongside.
+ * @property {boolean|null} respectsRobots  False when the operator has not committed to robots.txt;
+ *   null when no operator page documents the token at all.
+ * @property {boolean} documented      False for a token no operator has published a page for.
+ * @property {boolean} allowed
+ * @property {'agent'|'wildcard'|'none'} source  Which group decided: the crawler's own, `*`, or neither.
+ * @property {RobotsRule|null} rule    The deciding line, verbatim, so a reader can find it in their file.
+ */
 
-/** Verdicts for every known AI crawler, for one path. */
-export function checkRobots(robotsText: string, path = '/'): CrawlerVerdict[] {
-  const parsed: ParsedRobots = parseRobots(robotsText)
+/**
+ * Verdicts for every known AI crawler, for one path.
+ * @param {string} robotsText
+ * @param {string} [path]
+ * @returns {CrawlerVerdict[]}
+ */
+export function checkRobots(robotsText, path = '/') {
+  const parsed = parseRobots(robotsText)
   const target = normalizeCheckPath(path)
-  return AI_CRAWLERS.map((crawler: AiCrawler) => {
+  return AI_CRAWLERS.map((crawler) => {
     const v = isAllowed(parsed, crawler.token, target)
     return {
       token: crawler.token,
@@ -40,6 +45,7 @@ export function checkRobots(robotsText: string, path = '/'): CrawlerVerdict[] {
       purpose: crawler.purpose,
       classicSearch: crawler.classicSearch ?? false,
       respectsRobots: crawler.respectsRobots,
+      documented: crawler.documented,
       allowed: v.allowed,
       source: v.source,
       rule: v.decidedBy,
@@ -55,7 +61,8 @@ export function checkRobots(robotsText: string, path = '/'): CrawlerVerdict[] {
  * an assistant finds and cites you while a person is waiting. Blocking those
  * removes you from the answer, which is rarely what the author intended.
  */
-export function summarize(verdicts: CrawlerVerdict[]) {
+/** @param {CrawlerVerdict[]} verdicts */
+export function summarize(verdicts) {
   const blocked = verdicts.filter((v) => !v.allowed)
   const trafficBlocked = blocked.filter((v) => v.purpose === 'search' || v.purpose === 'answer')
   return {

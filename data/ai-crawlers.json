@@ -1,0 +1,55 @@
+{
+  "$schema": "./ai-crawlers.schema.json",
+  "version": "2026.11.01",
+  "updated": "2026-11-01",
+  "data_license": "CC-BY-4.0",
+  "maintainer": "Go Top SEO",
+  "source_page": "https://www.gotopseo.com/en/ai-crawlers",
+  "notes": [
+    "Every row's token spelling and purpose comes from the operator's own documentation, linked in `docs`, read on the date in `verified`.",
+    "`purpose` is the field most lists leave out and the one that changes the decision: `train` is a corpus for a future model, `answer` is a fetch made while a person waits for an answer that can cite and link you, `search` builds an index, `ads` checks ad landing pages, `preview` builds a link preview.",
+    "`crawls: false` marks a control-only robots.txt token that fetches nothing by itself (Google-Extended, Applebot-Extended). Disallowing it changes how already-crawled content may be used; it does not remove you from search.",
+    "`respects_robots: false` marks an agent whose own operator documents that it may ignore robots.txt. For those, a robots.txt verdict states your request, not an outcome."
+  ],
+  "crawlers": [
+    { "token": "GPTBot", "operator": "OpenAI", "purpose": "train", "crawls": true, "respects_robots": true, "docs": "https://developers.openai.com/api/docs/bots", "verified": "2026-11-01" },
+    { "token": "OAI-SearchBot", "operator": "OpenAI", "purpose": "search", "crawls": true, "respects_robots": true, "docs": "https://developers.openai.com/api/docs/bots", "verified": "2026-11-01" },
+    { "token": "ChatGPT-User", "operator": "OpenAI", "purpose": "answer", "crawls": true, "respects_robots": true, "docs": "https://developers.openai.com/api/docs/bots", "verified": "2026-11-01" },
+    { "token": "OAI-AdsBot", "operator": "OpenAI", "purpose": "ads", "crawls": true, "respects_robots": true, "docs": "https://developers.openai.com/api/docs/bots", "verified": "2026-11-01" },
+
+    { "token": "ClaudeBot", "operator": "Anthropic", "purpose": "train", "crawls": true, "respects_robots": true, "docs": "https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler", "verified": "2026-11-01" },
+    { "token": "Claude-SearchBot", "operator": "Anthropic", "purpose": "search", "crawls": true, "respects_robots": true, "docs": "https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler", "verified": "2026-11-01" },
+    { "token": "Claude-User", "operator": "Anthropic", "purpose": "answer", "crawls": true, "respects_robots": true, "docs": "https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler", "verified": "2026-11-01" },
+
+    { "token": "Google-Extended", "operator": "Google", "purpose": "train", "crawls": false, "respects_robots": true, "docs": "https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers", "verified": "2026-11-01", "note": "A robots.txt token with no user-agent string of its own. It controls whether crawled content may train future Gemini models and ground answers in Gemini Apps and Vertex AI. Google documents that it does not affect inclusion in Google Search." },
+    { "token": "GoogleOther", "operator": "Google", "purpose": "train", "crawls": true, "respects_robots": true, "docs": "https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers", "verified": "2026-11-01", "note": "A generic crawler any Google product team may use, including one-off research crawls. Rules for it affect no named product." },
+    { "token": "Googlebot", "operator": "Google", "purpose": "search", "crawls": true, "respects_robots": true, "classic_search": true, "docs": "https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers", "verified": "2026-11-01", "note": "Not an AI crawler, but AI Overviews are built from the Google index, so blocking it removes you from both." },
+
+    { "token": "PerplexityBot", "operator": "Perplexity", "purpose": "search", "crawls": true, "respects_robots": true, "docs": "https://docs.perplexity.ai/guides/bots", "verified": "2026-11-01" },
+    { "token": "Perplexity-User", "operator": "Perplexity", "purpose": "answer", "crawls": true, "respects_robots": false, "docs": "https://docs.perplexity.ai/guides/bots", "verified": "2026-11-01", "note": "Perplexity's own documentation states that because the fetch is user-initiated it generally ignores robots.txt." },
+
+    { "token": "Applebot", "operator": "Apple", "purpose": "search", "crawls": true, "respects_robots": true, "classic_search": true, "docs": "https://support.apple.com/en-us/119829", "verified": "2026-11-01", "note": "Powers Spotlight, Siri and Safari search. Where robots.txt names Googlebot but not Applebot, Applebot follows the Googlebot rules." },
+    { "token": "Applebot-Extended", "operator": "Apple", "purpose": "train", "crawls": false, "respects_robots": true, "docs": "https://support.apple.com/en-us/119829", "verified": "2026-11-01", "note": "Controls whether what Applebot already crawled may train Apple's foundation models. Apple documents that it crawls no pages and does not affect search results." },
+
+    { "token": "Meta-ExternalAgent", "operator": "Meta", "purpose": "train", "crawls": true, "respects_robots": true, "docs": "https://developers.facebook.com/docs/sharing/webmasters/web-crawlers/", "verified": "2026-11-01" },
+    { "token": "Meta-WebIndexer", "operator": "Meta", "purpose": "search", "crawls": true, "respects_robots": true, "docs": "https://developers.facebook.com/docs/sharing/webmasters/web-crawlers/", "verified": "2026-11-01", "note": "Crawls for Meta AI search results, which cite and link the content." },
+    { "token": "Meta-ExternalFetcher", "operator": "Meta", "purpose": "answer", "crawls": true, "respects_robots": false, "docs": "https://developers.facebook.com/docs/sharing/webmasters/web-crawlers/", "verified": "2026-11-01", "note": "Meta documents that it may bypass robots.txt because it fetches single links at a user's request." },
+    { "token": "Meta-ExternalAds", "operator": "Meta", "purpose": "ads", "crawls": true, "respects_robots": true, "docs": "https://developers.facebook.com/docs/sharing/webmasters/web-crawlers/", "verified": "2026-11-01" },
+    { "token": "FacebookExternalHit", "operator": "Meta", "purpose": "preview", "crawls": true, "respects_robots": false, "docs": "https://developers.facebook.com/docs/sharing/webmasters/web-crawlers/", "verified": "2026-11-01", "note": "Builds the title, description and thumbnail for a shared link. Meta documents that it may bypass robots.txt for security and integrity checks." },
+
+    { "token": "Amazonbot", "operator": "Amazon", "purpose": "answer", "crawls": true, "respects_robots": true, "docs": "https://developer.amazon.com/amazonbot", "verified": "2026-11-01", "note": "Amazon documents that it may also be used to train Amazon AI models, honours allow/disallow, and may act on a robots.txt copy cached for up to 30 days." },
+
+    { "token": "Bingbot", "operator": "Microsoft", "purpose": "search", "crawls": true, "respects_robots": true, "classic_search": true, "docs": "https://www.bing.com/webmasters/help/which-crawlers-does-bing-use-8c184ec0", "verified": "2026-11-01", "note": "Not an AI crawler, but Copilot answers are built on the Bing index." },
+
+    { "token": "CCBot", "operator": "Common Crawl", "purpose": "train", "crawls": true, "respects_robots": true, "docs": "https://commoncrawl.org/ccbot", "verified": "2026-11-01", "note": "Builds the public Common Crawl corpus, which many model builders then use. Blocking it after the fact does not remove you from archives already published." },
+    { "token": "AI2Bot", "operator": "Allen Institute for AI", "purpose": "train", "crawls": true, "respects_robots": true, "docs": "https://allenai.org/crawler", "verified": "2026-11-01" },
+    { "token": "Diffbot", "operator": "Diffbot", "purpose": "train", "crawls": true, "respects_robots": true, "docs": "https://www.diffbot.com/support/diffbot-crawler/", "verified": "2026-11-01" }
+  ],
+  "candidates_awaiting_a_reference": [
+    { "token": "Bytespider", "operator": "ByteDance", "purpose": "train", "why_here": "Widely reported in server logs and widely reported to ignore robots.txt, but no operator-published page documenting the token was found on 2026-11-01. A link to one is the contribution this file wants." },
+    { "token": "cohere-ai", "operator": "Cohere", "purpose": "train", "why_here": "Seen in logs and in other lists; no current operator page documenting the token was found on 2026-11-01." },
+    { "token": "MistralAI-User", "operator": "Mistral AI", "purpose": "answer", "why_here": "Used by Le Chat's web connector; no operator page naming the token was found on 2026-11-01." },
+    { "token": "Timpibot", "operator": "Timpi", "purpose": "train", "why_here": "No operator documentation found on 2026-11-01." },
+    { "token": "omgili", "operator": "Webz.io", "purpose": "train", "why_here": "No current operator documentation found on 2026-11-01." }
+  ]
+}
