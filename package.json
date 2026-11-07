@@ -10,7 +10,7 @@
   "bugs": { "url": "https://github.com/orenhacham-lab/ai-crawler-access/issues" },
   "keywords": ["robots.txt", "ai-crawlers", "gptbot", "seo", "rfc9309", "llm", "crawler", "oai-searchbot"],
   "exports": { ".": "./src/index.js", "./data": "./data/ai-crawlers.json" },
-  "bin": { "ai-crawler-access": "./bin/ai-crawler-access.js" },
+  "bin": { "ai-crawler-access": "bin/ai-crawler-access.js" },
   "engines": { "node": ">=18.17" },
   "files": ["src", "bin", "data", "README.md", "LICENSE", "LICENSE-DATA"],
   "scripts": { "test": "node --test test/*.test.js" }
