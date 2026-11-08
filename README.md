@@ -1,5 +1,7 @@
 # ai-crawler-access
 
+[![test](https://github.com/orenhacham-lab/ai-crawler-access/actions/workflows/test.yml/badge.svg)](https://github.com/orenhacham-lab/ai-crawler-access/actions/workflows/test.yml)
+
 Check which AI crawlers a site's `robots.txt` allows or blocks — **and which line in the file decided it**.
 
 Zero dependencies. No build step. No network except the one request that fetches `robots.txt`.
