@@ -14,13 +14,19 @@
  * link back. A file that blocks everything because "AI bad" usually meant only
  * the first.
  *
+ * `agent` is the newest category and the one that is not a crawler at all:
+ * a browser an assistant drives on one person's behalf. Blocking it blocks a
+ * visitor who asked for your page, which is a different decision from every
+ * other row here, and the operator of the one documented agent states that
+ * robots.txt does not govern it.
+ *
  * `documented: false` marks a token that no operator has published a page for.
  * Those live in the dataset's own `candidates_awaiting_a_reference` list and are
  * carried here because people do find them in their logs and want a verdict —
  * but `respectsRobots` is `null` for them, because nobody has committed to
  * anything we could cite. Asserting `true` there would be inventing a fact.
  *
- * @typedef {'train'|'answer'|'search'|'ads'|'preview'} CrawlerPurpose
+ * @typedef {'train'|'answer'|'search'|'ads'|'preview'|'agent'} CrawlerPurpose
  *
  * @typedef {object} AiCrawler
  * @property {string}  token           The product token exactly as the operator publishes it.

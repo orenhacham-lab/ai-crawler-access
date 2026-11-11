@@ -6,9 +6,11 @@ OAI-AdsBot,OpenAI,ads,true,true,,https://developers.openai.com/api/docs/bots,202
 ClaudeBot,Anthropic,train,true,true,,https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler,2026-11-01
 Claude-SearchBot,Anthropic,search,true,true,,https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler,2026-11-01
 Claude-User,Anthropic,answer,true,true,,https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler,2026-11-01
+Claude-Agent,Anthropic,agent,true,false,,https://support.claude.com/en/articles/18234133-how-do-anthropic-hosted-browsers-identify-themselves-when-they-browse-the-web-on-a-user-s-behalf,2026-11-11
 Google-Extended,Google,train,false,true,,https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers,2026-11-01
 GoogleOther,Google,train,true,true,,https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers,2026-11-01
 Googlebot,Google,search,true,true,true,https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers,2026-11-01
+Google-CloudVertexBot,Google,search,true,true,,https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers,2026-11-11
 PerplexityBot,Perplexity,search,true,true,,https://docs.perplexity.ai/guides/bots,2026-11-01
 Perplexity-User,Perplexity,answer,true,false,,https://docs.perplexity.ai/guides/bots,2026-11-01
 Applebot,Apple,search,true,true,true,https://support.apple.com/en-us/119829,2026-11-01

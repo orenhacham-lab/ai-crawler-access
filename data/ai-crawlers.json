@@ -1,13 +1,13 @@
 {
   "$schema": "./ai-crawlers.schema.json",
-  "version": "2026.11.01",
-  "updated": "2026-11-01",
+  "version": "2026.11.11",
+  "updated": "2026-11-11",
   "data_license": "CC-BY-4.0",
   "maintainer": "Go Top SEO",
   "source_page": "https://www.gotopseo.com/en/ai-crawlers",
   "notes": [
     "Every row's token spelling and purpose comes from the operator's own documentation, linked in `docs`, read on the date in `verified`.",
-    "`purpose` is the field most lists leave out and the one that changes the decision: `train` is a corpus for a future model, `answer` is a fetch made while a person waits for an answer that can cite and link you, `search` builds an index, `ads` checks ad landing pages, `preview` builds a link preview.",
+    "`purpose` is the field most lists leave out and the one that changes the decision: `train` is a corpus for a future model, `answer` is a fetch made while a person waits for an answer that can cite and link you, `search` builds an index, `ads` checks ad landing pages, `preview` builds a link preview, and `agent` is a browser an assistant drives on one person’s behalf — a visitor, not a crawler.",
     "`crawls: false` marks a control-only robots.txt token that fetches nothing by itself (Google-Extended, Applebot-Extended). Disallowing it changes how already-crawled content may be used; it does not remove you from search.",
     "`respects_robots: false` marks an agent whose own operator documents that it may ignore robots.txt. For those, a robots.txt verdict states your request, not an outcome."
   ],
@@ -20,10 +20,12 @@
     { "token": "ClaudeBot", "operator": "Anthropic", "purpose": "train", "crawls": true, "respects_robots": true, "docs": "https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler", "verified": "2026-11-01" },
     { "token": "Claude-SearchBot", "operator": "Anthropic", "purpose": "search", "crawls": true, "respects_robots": true, "docs": "https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler", "verified": "2026-11-01" },
     { "token": "Claude-User", "operator": "Anthropic", "purpose": "answer", "crawls": true, "respects_robots": true, "docs": "https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler", "verified": "2026-11-01" },
+    { "token": "Claude-Agent", "operator": "Anthropic", "purpose": "agent", "crawls": true, "respects_robots": false, "docs": "https://support.claude.com/en/articles/18234133-how-do-anthropic-hosted-browsers-identify-themselves-when-they-browse-the-web-on-a-user-s-behalf", "verified": "2026-11-11", "note": "A browser hosted by Anthropic and driven by an agent at one user’s direction, which Anthropic documents separately from its crawlers and fetchers. It carries the browser’s own User-Agent with the token added inside it, so a rule has to match the token rather than the whole string, and Anthropic publishes the addresses it comes from at claude.com/.well-known/sail under the same name. Anthropic states that a site’s preferences for its crawlers and for this traffic are independent of each other, and does not describe this traffic as governed by robots.txt." },
 
     { "token": "Google-Extended", "operator": "Google", "purpose": "train", "crawls": false, "respects_robots": true, "docs": "https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers", "verified": "2026-11-01", "note": "A robots.txt token with no user-agent string of its own. It controls whether crawled content may train future Gemini models and ground answers in Gemini Apps and Vertex AI. Google documents that it does not affect inclusion in Google Search." },
     { "token": "GoogleOther", "operator": "Google", "purpose": "train", "crawls": true, "respects_robots": true, "docs": "https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers", "verified": "2026-11-01", "note": "A generic crawler any Google product team may use, including one-off research crawls. Rules for it affect no named product." },
     { "token": "Googlebot", "operator": "Google", "purpose": "search", "crawls": true, "respects_robots": true, "classic_search": true, "docs": "https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers", "verified": "2026-11-01", "note": "Not an AI crawler, but AI Overviews are built from the Google index, so blocking it removes you from both." },
+    { "token": "Google-CloudVertexBot", "operator": "Google", "purpose": "search", "crawls": true, "respects_robots": true, "docs": "https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers", "verified": "2026-11-11", "note": "Google documents that rules addressed to this token affect only crawls that a site owner has asked for when building a Vertex AI agent, and have no effect on Google Search or any other product. So it is the one row here that a site usually meets because somebody on that site asked for it." },
 
     { "token": "PerplexityBot", "operator": "Perplexity", "purpose": "search", "crawls": true, "respects_robots": true, "docs": "https://docs.perplexity.ai/guides/bots", "verified": "2026-11-01" },
     { "token": "Perplexity-User", "operator": "Perplexity", "purpose": "answer", "crawls": true, "respects_robots": false, "docs": "https://docs.perplexity.ai/guides/bots", "verified": "2026-11-01", "note": "Perplexity's own documentation states that because the fetch is user-initiated it generally ignores robots.txt." },
