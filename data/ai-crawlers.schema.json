@@ -18,7 +18,7 @@
         "properties": {
           "token": { "type": "string", "description": "The product token exactly as the operator publishes it." },
           "operator": { "type": "string" },
-          "purpose": { "enum": ["train", "answer", "search", "ads", "preview"] },
+          "purpose": { "enum": ["train", "answer", "search", "ads", "preview", "agent"] },
           "crawls": { "type": "boolean", "description": "False for a control-only robots.txt token that fetches nothing." },
           "respects_robots": { "type": "boolean", "description": "False where the operator documents that robots.txt may be ignored." },
           "classic_search": { "type": "boolean" },

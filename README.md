@@ -38,6 +38,8 @@ Every parser we tried returns the boolean and throws the provenance away — and
 | `search` | building the index behind an assistant's answers | **you leave the index your customers are searching** |
 | `answer` | fetching your page *while a person waits for an answer* | **you lose the citation and the click** |
 | `ads` | checking an advert's landing page | — |
+| `preview` | building the thumbnail and title for a shared link | — |
+| `agent` | a browser an assistant drives **on one person's behalf** | **you block a visitor who asked for your page** |
 
 Blocking `GPTBot` is a decision about training. Blocking `OAI-SearchBot` is a decision about whether you exist inside ChatGPT. Most files that block one block the other, usually because of a line inherited from a template or a plugin rather than a decision anyone made.
 
