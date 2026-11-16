@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { checkRobots, summarize, isAllowed, parseRobots, AI_CRAWLERS, DATASET_VERSION } from '../src/index.js'
+import { checkRobots, summarize, isAllowed, parseRobots, allowPlan, AI_CRAWLERS, DATASET_VERSION } from '../src/index.js'
 
 // Rule 1: group selection is exact, never a prefix.
 test('a Google-Extended group does not govern Googlebot', () => {
@@ -98,4 +98,58 @@ test('the CSV holds the same tokens as the JSON', () => {
     rows.map((r) => r.split(',')[0]),
     dataset.crawlers.map((c) => c.token),
   )
+})
+
+/* --fix: how to let a blocked answer crawler back in.
+   Rule 2 plus rule 4 are the whole fix, and rule 2 is also why a block written
+   inside the crawler's OWN group cannot be fixed by pasting anything. */
+test('a catch-all block is fixed by pasting two lines', () => {
+  const plan = allowPlan(checkRobots('User-agent: *\nDisallow: /'))
+  assert.ok(plan.paste.includes('OAI-SearchBot'))
+  assert.ok(plan.lines.includes('User-agent: OAI-SearchBot\nDisallow:'))
+  assert.ok(!plan.lines.includes('Disallow: /'))
+  assert.equal(plan.edit.length, 0)
+})
+
+test('the pasted lines really do lift the catch-all, read back', () => {
+  const file = 'User-agent: *\nDisallow: /'
+  const plan = allowPlan(checkRobots(file))
+  const after = parseRobots(`${file}\n\n${plan.lines}`)
+  assert.equal(isAllowed(after, 'OAI-SearchBot', '/').allowed, true)
+  assert.equal(isAllowed(after, 'OAI-SearchBot', '/blog/x').allowed, true)
+  // and the catch-all is untouched for everyone else
+  assert.equal(isAllowed(after, 'CCBot', '/').allowed, false)
+})
+
+test('a block in the crawler own group is an edit, not a paste', () => {
+  const plan = allowPlan(checkRobots('User-agent: OAI-SearchBot\nDisallow: /'))
+  assert.equal(plan.paste.length, 0)
+  assert.equal(plan.lines, '')
+  const e = plan.edit.find((x) => x.token === 'OAI-SearchBot')
+  assert.ok(e)
+  assert.equal(e.rule?.line, 2)
+})
+
+test('training-only blocks are left alone', () => {
+  const plan = allowPlan(checkRobots('User-agent: GPTBot\nDisallow: /'))
+  assert.equal(plan.paste.length, 0)
+  assert.equal(plan.edit.length, 0)
+})
+
+test('nothing is proposed for a classic search crawler', () => {
+  const plan = allowPlan(checkRobots('User-agent: *\nDisallow: /'))
+  assert.ok(!plan.paste.includes('Googlebot'))
+  assert.ok(!plan.paste.includes('Bingbot'))
+  assert.ok(!plan.lines.includes('Googlebot'))
+})
+
+test('nothing is proposed for a crawler that may ignore robots.txt', () => {
+  const plan = allowPlan(checkRobots('User-agent: *\nDisallow: /'))
+  assert.ok(!plan.paste.includes('Perplexity-User'))
+})
+
+test('an open file needs no fix at all', () => {
+  const plan = allowPlan(checkRobots(''))
+  assert.equal(plan.lines, '')
+  assert.equal(plan.edit.length, 0)
 })

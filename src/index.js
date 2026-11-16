@@ -74,3 +74,49 @@ export function summarize(verdicts) {
     blocksTrainingOnly: blocked.length > 0 && trafficBlocked.length === 0,
   }
 }
+
+/**
+ * How to let the blocked traffic-bringing crawlers back in, which is the
+ * commoner accident and the one nothing else here answered.
+ *
+ * `Disallow:` with nothing after it is robots.txt's own way of saying "no
+ * restrictions" (rule 4 in `src/robots.js`), and because a crawler is governed
+ * by exactly one group (rule 2), a group that names it REPLACES the `*` group
+ * for it. Those two rules together are the entire fix for a site that blocked
+ * an answer crawler through a catch-all it aimed at every bot alike.
+ *
+ * The same two rules are why this function splits its answer in half:
+ *
+ * - `paste` — the block came from the `*` group, so the two lines below are all
+ *   it takes. The named group wins and the catch-all stops applying to it.
+ * - `edit` — the block came from a group that already names the crawler. Adding
+ *   a second group MERGES with it, so the existing `Disallow: /` stays in force
+ *   and these lines would change nothing. The line that decided it is named,
+ *   with its number, because that line is what has to go.
+ *
+ * Deliberately left out of both lists: classic search crawlers, which are not
+ * AI crawlers and whose rules are not ours to rewrite; tokens no operator
+ * documents, because writing a group for a guess puts the guess in someone's
+ * file; and crawlers whose operator states they may ignore robots.txt, where an
+ * allow line would be a reassurance nobody has promised to honour.
+ *
+ * @param {CrawlerVerdict[]} verdicts
+ */
+export function allowPlan(verdicts) {
+  const candidates = verdicts.filter(
+    (v) =>
+      !v.allowed &&
+      !v.classicSearch &&
+      v.documented &&
+      v.respectsRobots !== false &&
+      (v.purpose === 'search' || v.purpose === 'answer'),
+  )
+  const paste = candidates.filter((v) => v.source !== 'agent')
+  const edit = candidates
+    .filter((v) => v.source === 'agent')
+    .map((v) => ({ token: v.token, rule: v.rule }))
+  const lines = paste.length
+    ? paste.map((v) => `User-agent: ${v.token}\nDisallow:`).join('\n\n') + '\n'
+    : ''
+  return { lines, paste: paste.map((v) => v.token), edit }
+}

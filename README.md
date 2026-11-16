@@ -87,10 +87,11 @@ npm install github:orenhacham-lab/ai-crawler-access
 ```
 
 ```js
-import { checkRobots, summarize, parseRobots, isAllowed, AI_CRAWLERS } from 'ai-crawler-access'
+import { checkRobots, summarize, allowPlan, parseRobots, isAllowed, AI_CRAWLERS } from 'ai-crawler-access'
 
 checkRobots(robotsText, path?)   // CrawlerVerdict[] — every known AI crawler
 summarize(verdicts)              // counts + which blocked crawlers cost traffic
+allowPlan(verdicts)              // how to let them back in: { lines, paste, edit }
 parseRobots(text)                // groups and rules, with line numbers
 isAllowed(parsed, token, path)   // { allowed, source, decidedBy }
 AI_CRAWLERS                      // the reference list, read from data/ai-crawlers.json
@@ -98,8 +99,35 @@ AI_CRAWLERS                      // the reference list, read from data/ai-crawle
 
 Everything except `fetchRobots` is a pure function of the text: no network, no clock, no environment.
 
+### `--fix`, and the reason it has two answers
+
+A verdict tells you what your file says. `--fix` tells you what to write, and it
+splits its answer in two because RFC 9309 makes the two cases genuinely
+different:
+
+- **The block came from your `*` group.** Two lines fix it. A group that names
+  the crawler *replaces* the `*` group for it, and `Disallow:` with nothing
+  after it is the documented way to say "no restrictions", so the catch-all
+  simply stops applying to that one crawler.
+
+  ```
+  User-agent: OAI-SearchBot
+  Disallow:
+  ```
+
+- **The block came from a group that already names the crawler.** Pasting
+  anything would be worse than useless: groups naming the same agent *merge*, so
+  the existing `Disallow: /` stays in force and nothing changes. `--fix` names
+  the line and its number instead, because that line is what has to go.
+
+It proposes nothing for classic search crawlers, for tokens no operator
+documents, or for crawlers whose operator states they may ignore `robots.txt` —
+in the last case an allow line would be a reassurance nobody has promised to
+honour. And it prints only when asked for: a checker that volunteers edits to
+someone else's `robots.txt` is a checker nobody should trust with a domain.
+
 ```bash
-npx github:orenhacham-lab/ai-crawler-access example.com --path /blog/ --json
+npx github:orenhacham-lab/ai-crawler-access example.com --path /blog/ --fix --json
 ```
 
 ## Requirements
