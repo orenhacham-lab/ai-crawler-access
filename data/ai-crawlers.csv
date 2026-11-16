@@ -25,3 +25,8 @@ Bingbot,Microsoft,search,true,true,true,https://www.bing.com/webmasters/help/whi
 CCBot,Common Crawl,train,true,true,,https://commoncrawl.org/ccbot,2026-11-01
 AI2Bot,Allen Institute for AI,train,true,true,,https://allenai.org/crawler,2026-11-01
 Diffbot,Diffbot,train,true,true,,https://www.diffbot.com/support/diffbot-crawler/,2026-11-01
+MistralAI-Index,Mistral AI,search,true,true,,https://docs.mistral.ai/robots/,2026-11-16
+MistralAI-Training,Mistral AI,train,true,true,,https://docs.mistral.ai/robots/,2026-11-16
+MistralAI-User,Mistral AI,answer,true,true,,https://docs.mistral.ai/robots/,2026-11-16
+DuckAssistBot,DuckDuckGo,answer,true,true,,https://duckduckgo.com/duckduckgo-help-pages/results/duckassistbot/,2026-11-16
+Kagibot,Kagi,search,true,true,,https://kagi.com/bot,2026-11-16
