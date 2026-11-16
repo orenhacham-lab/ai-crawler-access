@@ -1,7 +1,7 @@
 {
   "$schema": "./ai-crawlers.schema.json",
-  "version": "2026.11.11",
-  "updated": "2026-11-11",
+  "version": "2026.11.16",
+  "updated": "2026-11-16",
   "data_license": "CC-BY-4.0",
   "maintainer": "Go Top SEO",
   "source_page": "https://www.gotopseo.com/en/ai-crawlers",
@@ -45,12 +45,19 @@
 
     { "token": "CCBot", "operator": "Common Crawl", "purpose": "train", "crawls": true, "respects_robots": true, "docs": "https://commoncrawl.org/ccbot", "verified": "2026-11-01", "note": "Builds the public Common Crawl corpus, which many model builders then use. Blocking it after the fact does not remove you from archives already published." },
     { "token": "AI2Bot", "operator": "Allen Institute for AI", "purpose": "train", "crawls": true, "respects_robots": true, "docs": "https://allenai.org/crawler", "verified": "2026-11-01" },
-    { "token": "Diffbot", "operator": "Diffbot", "purpose": "train", "crawls": true, "respects_robots": true, "docs": "https://www.diffbot.com/support/diffbot-crawler/", "verified": "2026-11-01" }
+    { "token": "Diffbot", "operator": "Diffbot", "purpose": "train", "crawls": true, "respects_robots": true, "docs": "https://www.diffbot.com/support/diffbot-crawler/", "verified": "2026-11-01" },
+
+    {"token": "MistralAI-Index", "operator": "Mistral AI", "purpose": "search", "crawls": true, "respects_robots": true, "docs": "https://docs.mistral.ai/robots/", "verified": "2026-11-16"},
+    {"token": "MistralAI-Training", "operator": "Mistral AI", "purpose": "train", "crawls": true, "respects_robots": true, "docs": "https://docs.mistral.ai/robots/", "verified": "2026-11-16"},
+    {"token": "MistralAI-User", "operator": "Mistral AI", "purpose": "answer", "crawls": true, "respects_robots": true, "docs": "https://docs.mistral.ai/robots/", "verified": "2026-11-16", "note": "Le Chat's web connector, fetching a page while a person waits for the answer. Mistral documents the three tokens apart from one another so that indexing, training and this on-demand fetch can each be decided on its own."},
+
+    {"token": "DuckAssistBot", "operator": "DuckDuckGo", "purpose": "answer", "crawls": true, "respects_robots": true, "docs": "https://duckduckgo.com/duckduckgo-help-pages/results/duckassistbot/", "verified": "2026-11-16", "note": "DuckDuckGo documents that the fetch is made in real time for an answer that cites its sources, that the data is not used to train a model, that an opt-out written into robots.txt takes effect within 72 hours, and that disallowing it does not affect ordinary search rankings."},
+
+    {"token": "Kagibot", "operator": "Kagi", "purpose": "search", "crawls": true, "respects_robots": true, "docs": "https://kagi.com/bot", "verified": "2026-11-16", "note": "Kagi documents one behaviour no other operator here does: with no group naming Kagibot, it follows the Googlebot group rather than the `*` group. So a site that disallows `*` and allows Googlebot is allowing Kagibot too, which is the opposite of what RFC 9309 alone would predict."}
   ],
   "candidates_awaiting_a_reference": [
     { "token": "Bytespider", "operator": "ByteDance", "purpose": "train", "why_here": "Widely reported in server logs and widely reported to ignore robots.txt, but no operator-published page documenting the token was found on 2026-11-01. A link to one is the contribution this file wants." },
     { "token": "cohere-ai", "operator": "Cohere", "purpose": "train", "why_here": "Seen in logs and in other lists; no current operator page documenting the token was found on 2026-11-01." },
-    { "token": "MistralAI-User", "operator": "Mistral AI", "purpose": "answer", "why_here": "Used by Le Chat's web connector; no operator page naming the token was found on 2026-11-01." },
     { "token": "Timpibot", "operator": "Timpi", "purpose": "train", "why_here": "No operator documentation found on 2026-11-01." },
     { "token": "omgili", "operator": "Webz.io", "purpose": "train", "why_here": "No current operator documentation found on 2026-11-01." }
   ]
