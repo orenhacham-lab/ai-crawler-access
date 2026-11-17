@@ -153,3 +153,73 @@ test('an open file needs no fix at all', () => {
   assert.equal(plan.lines, '')
   assert.equal(plan.edit.length, 0)
 })
+
+// ---------------------------------------------------------------------------
+// data/blocking-measurement.json — two readings that must stay two readings.
+//
+// The danger a published measurement carries is not a wrong digit, it is a
+// merged one: twelve markets under one date, or a percentage whose denominator
+// is two samples added together. Nobody writes that deliberately; it happens
+// when someone later tidies two lists into one. These tests make the file
+// refuse that.
+// ---------------------------------------------------------------------------
+
+const measurement = JSON.parse(readFileSync(new URL('../data/blocking-measurement.json', import.meta.url), 'utf8'))
+
+test('the measurement file holds two dated samples, not one merged table', () => {
+  assert.equal(measurement.samples.length, 2)
+  const dates = measurement.samples.map((s) => s.measured_on)
+  assert.deepEqual(dates, ['2026-11-07', '2026-11-17'])
+  assert.equal(new Set(dates).size, 2)
+})
+
+test('no market appears in both samples', () => {
+  const [first, second] = measurement.samples
+  const a = new Set(first.by_market.map((m) => m.market))
+  for (const m of second.by_market) assert.ok(!a.has(m.market), `${m.market} is in both samples`)
+})
+
+test('each sample lists exactly the markets its method names', () => {
+  for (const s of measurement.samples) {
+    assert.deepEqual([...s.markets].sort(), s.by_market.map((m) => m.market).sort())
+  }
+})
+
+test('every percentage is of files read, and n never exceeds what was requested', () => {
+  for (const s of measurement.samples) {
+    assert.ok(s.robots_files_read > 0)
+    assert.ok(s.robots_files_read < s.domains_requested)
+    const accountedFor = Object.values(s.failures).reduce((a, b) => a + b, 0)
+    assert.equal(s.robots_files_read + accountedFor, s.domains_requested)
+  }
+})
+
+test('each GPTBot blocker count agrees with its published share', () => {
+  for (const s of measurement.samples) {
+    const published = s.by_crawler.find((c) => c.token === 'GPTBot').blocked_pct
+    const computed = (s.findings.gptbot_blockers / s.robots_files_read) * 100
+    assert.ok(Math.abs(computed - published) < 0.1, `${s.measured_on}: ${computed} vs ${published}`)
+  }
+})
+
+test('every sample carries the small-business caveat first', () => {
+  for (const s of measurement.samples) {
+    assert.match(s.limitations[0], /not small businesses/i)
+  }
+})
+
+test('the tokens it reports are tokens the dataset documents', () => {
+  const known = new Set(AI_CRAWLERS.map((c) => c.token))
+  for (const s of measurement.samples) {
+    for (const c of s.by_crawler) assert.ok(known.has(c.token), `${c.token} is not in the dataset`)
+  }
+})
+
+test('the second sample records that it did not reproduce the first at the same size', () => {
+  const [first, second] = measurement.samples
+  assert.ok(
+    second.findings.of_gptbot_blockers_also_blocking_traffic_crawler_pct <
+      first.findings.of_gptbot_blockers_also_blocking_traffic_crawler_pct,
+  )
+  assert.equal(second.extends, first.measured_on)
+})
