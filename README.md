@@ -69,7 +69,27 @@ Run across **the 100 highest-ranked domains per market** from the [Tranco](https
 
 *Limitation, stated plainly: these are high-ranking sites, not small businesses. The figures describe the leading sites in each market and should not be read as a picture of small-business websites.*
 
-Reproduce it yourself — the matcher is pure, so the only variable is your sample.
+### A second reading, five markets later
+
+On **2026-11-17** the same run was repeated over five markets the first reading never touched: `.br`, `.pl`, `.kr`, `.se`, `.gr`. 350 of 500 sites served a readable `robots.txt`.
+
+It did not reproduce at the same size, which is the reason to publish it.
+
+| | 2026-11-07 (n=528) | 2026-11-17 (n=350) |
+|---|---|---|
+| `GPTBot` blockers who also block a traffic-bringing crawler | 66.5% | **42.3%** |
+| block at least one traffic-bringing AI crawler | 20.5% | 8.9% |
+| blocked training, kept search open | 10.2% | 11.7% |
+
+Per market: `.kr` 14.8%, `.se` 11.3%, `.pl` 9.1%, `.br` 6.1%, `.gr` 4.1%. Four of the five fall below the lowest market of the first seven (`.de`, 12.3%); Korea is the exception.
+
+One finding did hold, and it is the one `--fix` exists for: **30.4% of the sites blocking `OAI-SearchBot` never chose to** — the block came from a blanket `*` group — against 43.6% in the first reading. A third to a half, in both samples.
+
+*One method difference, stated rather than smoothed: a site answering 404 on `/robots.txt` is counted as not read, not as "no robots.txt, therefore open". That shrinks the denominator and so raises every percentage in the second column.*
+
+Both readings are in [`data/blocking-measurement.json`](data/blocking-measurement.json), CC BY 4.0, each with its own date, sample, n, failures and limitations. They are never added together: there is no combined percentage in that file, because there was never a combined sample.
+
+Reproduce either yourself — the matcher is pure, so the only variable is your sample.
 
 ## The four rules that are easy to get wrong
 
