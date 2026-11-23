@@ -1,32 +1,55 @@
-token,operator,purpose,crawls,respects_robots,classic_search,docs,verified
-GPTBot,OpenAI,train,true,true,,https://developers.openai.com/api/docs/bots,2026-11-01
-OAI-SearchBot,OpenAI,search,true,true,,https://developers.openai.com/api/docs/bots,2026-11-01
-ChatGPT-User,OpenAI,answer,true,true,,https://developers.openai.com/api/docs/bots,2026-11-01
-OAI-AdsBot,OpenAI,ads,true,true,,https://developers.openai.com/api/docs/bots,2026-11-01
-ClaudeBot,Anthropic,train,true,true,,https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler,2026-11-01
-Claude-SearchBot,Anthropic,search,true,true,,https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler,2026-11-01
-Claude-User,Anthropic,answer,true,true,,https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler,2026-11-01
-Claude-Agent,Anthropic,agent,true,false,,https://support.claude.com/en/articles/18234133-how-do-anthropic-hosted-browsers-identify-themselves-when-they-browse-the-web-on-a-user-s-behalf,2026-11-11
-Google-Extended,Google,train,false,true,,https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers,2026-11-01
-GoogleOther,Google,train,true,true,,https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers,2026-11-01
-Googlebot,Google,search,true,true,true,https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers,2026-11-01
-Google-CloudVertexBot,Google,search,true,true,,https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers,2026-11-11
-PerplexityBot,Perplexity,search,true,true,,https://docs.perplexity.ai/guides/bots,2026-11-01
-Perplexity-User,Perplexity,answer,true,false,,https://docs.perplexity.ai/guides/bots,2026-11-01
-Applebot,Apple,search,true,true,true,https://support.apple.com/en-us/119829,2026-11-01
-Applebot-Extended,Apple,train,false,true,,https://support.apple.com/en-us/119829,2026-11-01
-Meta-ExternalAgent,Meta,train,true,true,,https://developers.facebook.com/docs/sharing/webmasters/web-crawlers/,2026-11-01
-Meta-WebIndexer,Meta,search,true,true,,https://developers.facebook.com/docs/sharing/webmasters/web-crawlers/,2026-11-01
-Meta-ExternalFetcher,Meta,answer,true,false,,https://developers.facebook.com/docs/sharing/webmasters/web-crawlers/,2026-11-01
-Meta-ExternalAds,Meta,ads,true,true,,https://developers.facebook.com/docs/sharing/webmasters/web-crawlers/,2026-11-01
-FacebookExternalHit,Meta,preview,true,false,,https://developers.facebook.com/docs/sharing/webmasters/web-crawlers/,2026-11-01
-Amazonbot,Amazon,answer,true,true,,https://developer.amazon.com/amazonbot,2026-11-01
-Bingbot,Microsoft,search,true,true,true,https://www.bing.com/webmasters/help/which-crawlers-does-bing-use-8c184ec0,2026-11-01
-CCBot,Common Crawl,train,true,true,,https://commoncrawl.org/ccbot,2026-11-01
-AI2Bot,Allen Institute for AI,train,true,true,,https://allenai.org/crawler,2026-11-01
-Diffbot,Diffbot,train,true,true,,https://www.diffbot.com/support/diffbot-crawler/,2026-11-01
-MistralAI-Index,Mistral AI,search,true,true,,https://docs.mistral.ai/robots/,2026-11-16
-MistralAI-Training,Mistral AI,train,true,true,,https://docs.mistral.ai/robots/,2026-11-16
-MistralAI-User,Mistral AI,answer,true,true,,https://docs.mistral.ai/robots/,2026-11-16
-DuckAssistBot,DuckDuckGo,answer,true,true,,https://duckduckgo.com/duckduckgo-help-pages/results/duckassistbot/,2026-11-16
-Kagibot,Kagi,search,true,true,,https://kagi.com/bot,2026-11-16
+token,operator,purpose,crawls,respects_robots,classic_search,docs,verified,signed_requests
+GPTBot,OpenAI,train,true,true,,https://developers.openai.com/api/docs/bots,2026-11-01,
+OAI-SearchBot,OpenAI,search,true,true,,https://developers.openai.com/api/docs/bots,2026-11-01,
+ChatGPT-User,OpenAI,answer,true,true,,https://developers.openai.com/api/docs/bots,2026-11-01,
+OAI-AdsBot,OpenAI,ads,true,true,,https://developers.openai.com/api/docs/bots,2026-11-01,
+ClaudeBot,Anthropic,train,true,true,,https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler,2026-11-01,
+Claude-SearchBot,Anthropic,search,true,true,,https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler,2026-11-01,
+Claude-User,Anthropic,answer,true,true,,https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler,2026-11-01,
+Claude-Agent,Anthropic,agent,true,false,,https://support.claude.com/en/articles/18234133-how-do-anthropic-hosted-browsers-identify-themselves-when-they-browse-the-web-on-a-user-s-behalf,2026-11-11,
+Google-Extended,Google,train,false,true,,https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers,2026-11-01,
+GoogleOther,Google,train,true,true,,https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers,2026-11-01,
+Googlebot,Google,search,true,true,true,https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers,2026-11-01,
+Google-CloudVertexBot,Google,search,true,true,,https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers,2026-11-11,
+Google-Agent,Google,agent,true,false,,https://developers.google.com/crawling/docs/crawlers-fetchers/google-user-triggered-fetchers,2026-11-20,
+Google-GeminiNotebook,Google,answer,true,false,,https://developers.google.com/crawling/docs/crawlers-fetchers/google-user-triggered-fetchers,2026-11-20,
+PerplexityBot,Perplexity,search,true,true,,https://docs.perplexity.ai/docs/resources/perplexity-crawlers,2026-11-01,
+Perplexity-User,Perplexity,answer,true,false,,https://docs.perplexity.ai/docs/resources/perplexity-crawlers,2026-11-01,
+Applebot,Apple,search,true,true,true,https://support.apple.com/en-us/119829,2026-11-01,
+Applebot-Extended,Apple,train,false,true,,https://support.apple.com/en-us/119829,2026-11-01,
+Meta-ExternalAgent,Meta,train,true,true,,https://developers.facebook.com/documentation/sharing/webmasters/web-crawlers,2026-11-01,
+Meta-WebIndexer,Meta,search,true,true,,https://developers.facebook.com/documentation/sharing/webmasters/web-crawlers,2026-11-01,
+Meta-ExternalFetcher,Meta,answer,true,false,,https://developers.facebook.com/documentation/sharing/webmasters/web-crawlers,2026-11-01,
+Meta-ExternalAds,Meta,ads,true,true,,https://developers.facebook.com/documentation/sharing/webmasters/web-crawlers,2026-11-01,
+FacebookExternalHit,Meta,preview,true,false,,https://developers.facebook.com/documentation/sharing/webmasters/web-crawlers,2026-11-01,
+Amazonbot,Amazon,train,true,true,,https://developer.amazon.com/docs/amazonbot/amazonbot,2026-11-21,
+Amzn-SearchBot,Amazon,search,true,true,,https://developer.amazon.com/docs/amazonbot/amazonbot,2026-11-21,
+Amzn-User,Amazon,answer,true,false,,https://developer.amazon.com/docs/amazonbot/amazonbot,2026-11-21,
+amazon-QBusiness,Amazon,search,true,true,,https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/stop-web-crawler.html,2026-11-21,
+Bingbot,Microsoft,search,true,true,true,https://www.bing.com/webmasters/help/which-crawlers-does-bing-use-8c184ec0,2026-11-01,
+CCBot,Common Crawl,train,true,true,,https://commoncrawl.org/ccbot,2026-11-01,
+AI2Bot,Allen Institute for AI,train,true,true,,https://allenai.org/crawler,2026-11-01,
+Diffbot,Diffbot,search,true,true,,https://www.diffbot.com/docs/crawl/faq/robots-txt,2026-11-21,
+Diffbot-User,Diffbot,answer,true,false,,https://www.diffbot.com/docs/crawl/faq/robots-txt,2026-11-21,
+ImagesiftBot,Hive,train,true,true,,https://imagesift.com/about,2026-11-20,
+MistralAI-Index,Mistral AI,search,true,true,,https://docs.mistral.ai/robots,2026-11-16,
+MistralAI-Training,Mistral AI,train,true,true,,https://docs.mistral.ai/robots,2026-11-16,
+MistralAI-User,Mistral AI,answer,true,true,,https://docs.mistral.ai/robots,2026-11-16,
+DuckAssistBot,DuckDuckGo,answer,true,true,,https://duckduckgo.com/duckduckgo-help-pages/results/duckassistbot,2026-11-16,
+Kagibot,Kagi,search,true,true,,https://kagi.com/bot,2026-11-16,
+HaikuBot,Haiku,search,true,true,,https://www.haiku.fr/robots-doc,2026-11-21,
+Haiku-SearchBot,Haiku,answer,true,true,,https://www.haiku.fr/robots-doc,2026-11-21,
+ShapBot,Parallel Web Systems,search,true,true,,https://parallel.ai/parallel-web-systems-bots,2026-11-22,web-bot-auth
+Shap-User,Parallel Web Systems,answer,true,false,,https://parallel.ai/parallel-web-systems-bots,2026-11-22,web-bot-auth
+HarkBot,Hark Labs,agent,true,false,,https://app.hark.com/about/bot,2026-11-22,web-bot-auth
+KimiBot,Moonshot AI,train,true,true,,https://www.kimi.ai/policies/kimi-crawlers,2026-11-21,
+Kimi-SearchBot,Moonshot AI,search,true,true,,https://www.kimi.ai/policies/kimi-crawlers,2026-11-21,
+Kimi-User,Moonshot AI,answer,true,false,,https://www.kimi.ai/policies/kimi-crawlers,2026-11-21,
+ExaSearchBot,Exa,search,true,true,,https://crawler.exa.ai/,2026-11-21,web-bot-auth
+ExaSearchBot-Images,Exa,search,true,true,,https://crawler.exa.ai/,2026-11-21,
+ExaUser,Exa,answer,true,false,,https://crawler.exa.ai/,2026-11-21,
+LinerBot,Liner,search,true,true,,https://liner-user.liner.com/docs/linerbot,2026-11-21,web-bot-auth
+Liner-User,Liner,answer,true,true,,https://liner-user.liner.com/docs/linerbot,2026-11-21,web-bot-auth
+ElevenlabsCrawler,ElevenLabs,train,true,true,,https://elevenlabs.io/docs/bots,2026-11-21,
+ElevenlabsBot,ElevenLabs,search,true,true,,https://elevenlabs.io/docs/bots,2026-11-21,
+QualifiedBot,Qualified,train,true,false,,https://www.qualified.com/legal/qualified-crawler-user-agent,2026-11-21,

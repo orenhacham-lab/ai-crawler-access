@@ -24,6 +24,7 @@
           "classic_search": { "type": "boolean" },
           "docs": { "type": "string", "format": "uri" },
           "verified": { "type": "string", "format": "date" },
+          "signed_requests": { "enum": ["web-bot-auth"], "description": "Present only where the operator's own page says its requests are signed under Web Bot Auth (RFC 9421)." },
           "note": { "type": "string" }
         },
         "additionalProperties": false
